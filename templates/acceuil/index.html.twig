@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AcceuilController!{% endblock %}
+
+{% block body %}
+    <a href="{{ path('app_register', { }) }}" class="btn btn-primary btn-sm"> Register </a>
+    <a href="{{ path('app_connect', { }) }}" class="btn btn-primary btn-sm"> Connect </a>
+
+{% endblock %}
