@@ -24,27 +24,38 @@ class RegisterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $task = $form->getData();
+            if ($this->triMail($task->getMail()) == true){
+                if($task->getMail() )
+                    $task = $form->getData();
 
-            $plaintextPassword = $task->getPassword();
-            $hashedPassword = $passwordEncoder->hashPassword(
-                $task,
-                $plaintextPassword
-            );
+                $plaintextPassword = $task->getPassword();
+                $hashedPassword = $passwordEncoder->hashPassword(
+                    $task,
+                    $plaintextPassword
+                );
 
-            $task->setMail($task->getMail());
-            $task->setUsername($task->getUsername());
-            $task->setPassword($hashedPassword);
+                $task->setMail($task->getMail());
+                $task->setUsername($task->getUsername());
+                $task->setPassword($hashedPassword);
 
-            $entityManagerInterface->persist($task);
-            $entityManagerInterface->flush();
+                $entityManagerInterface->persist($task);
+                $entityManagerInterface->flush();
 
-            return $this->redirectToRoute('acceuil');
+                return $this->redirectToRoute('acceuil');
+            }
         }
 
         return $this->render('register/index.html.twig', [
             'controller_name' => 'RegisterController',
             'form' => $form->createView(),
         ]);
+    }
+
+    function triMail(string $mail){
+        $reponse = false;
+        if (strstr($mail, '@')){
+            $reponse = true;
+        }
+        return $reponse;
     }
 }
