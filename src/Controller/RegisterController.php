@@ -23,6 +23,10 @@ class RegisterController extends AbstractController
         $form = $this->createForm(RegisterType::class, $task);
         $form->handleRequest($request);
 
+        if($this->getUser()) {
+            return $this->redirectToRoute('acceuil');
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $task = $form->getData();
 
