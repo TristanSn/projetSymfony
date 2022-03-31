@@ -17,7 +17,6 @@ class MovieListController extends AbstractController
 {
     #[Route('/movie/list/{id}', name: 'app_movie_list', methods: ["GET", "POST"])]
 
-    public function index($id, Request $request): Response
     public function index($id, Request $request, FavoriRepository $favoriRepository): Response
     {
         $movieApiDto = new MovieListDto();
@@ -37,16 +36,26 @@ class MovieListController extends AbstractController
         $categories = $movieApiDto->getCategories();
 
         //DD($movies);
-        $favori = new Favori();
+        /*$favori = new Favori();
         $form = $this->createForm(FavoriType::class, $favori);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() &&  $form->isValid()) {
             $favoriRepository->add($favori);
             return $this->redirectToRoute('app_favori', [], Response::HTTP_SEE_OTHER);
+        }*/
+
+        //--------------------------
+        $favori = new Favori();
+        $formFav = $this->createForm(FavoriType::class, $favori);
+        $formFav->handleRequest($request);
+
+        if ($formFav->isSubmitted() &&  $formFav->isValid()) {
+            $favoriRepository->add($favori);
+            return $this->redirectToRoute('app_favori', [], Response::HTTP_SEE_OTHER);
         }
 
-        //DD($moviesPage);
+        //DD($movies);
         return $this->render('movie_list/index.html.twig', [
             'controller_name' => 'MovieListController',
             'movies' => $movies ,
@@ -55,6 +64,7 @@ class MovieListController extends AbstractController
             'controller' => $movieApiDto,
             'categories'=>$categories,
             'form'=>$form->createView(),
+            'formFav' => $formFav
         ]);
     }
 
@@ -83,10 +93,24 @@ class MovieListController extends AbstractController
             'controller_name' => 'Accueil Controller',
             'form' => $form,
             'movies' => $filmCategories,
-            'pagesPrecedente' => $id - 1,
-            'form' => $form
         ]);
     }
 
+    #[Route('/test/', name: 'test')]
+    public function test($idCategory, Request $request, FavoriRepository $favoriRepository): Response
+    {
+        $favori = new Favori();
+        $formFav = $this->createForm(FavoriType::class, $favori);
+        $formFav->handleRequest($request);
 
+        if ($formFav->isSubmitted() &&  $formFav->isValid()) {
+            $favoriRepository->add($favori);
+            return $this->redirectToRoute('app_favori', [], Response::HTTP_SEE_OTHER);
+        }
+        DD($formFav);
+        return $this->render('accueil/index.html.twig', [
+            'controller_name' => 'Accueil Controller',
+            'formFav' => $formFav,
+        ]);
+    }
 }
