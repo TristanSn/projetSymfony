@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MovieListController!{% endblock %}
+
+{% block body %}
+    <form action="{{ path('app_movie_list', {'id': id}) }}">
+        <input type="submit" value=">" />
+    </form>
+    <form action="{{ path('app_movie_list', {'id': pagesPrecedente}) }}">
+        <input type="submit" value="<" />
+    </form>
+ {% for movie in movies.results %}
+    <a>{{ movie.original_title }}</a><br>
+     <img src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}"><br>
+     <a> {{ movie.overview }}</a>
+    {% endfor %}
+
+{% endblock %}
