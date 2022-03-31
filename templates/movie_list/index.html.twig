@@ -7,7 +7,12 @@
          <img src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}" class="card-img-top" alt="...">
          <div class="card-body">
              <h5 class="card-title"><a> {{ movie.original_title }}</a></h5>
-             <button>ADD fav</button>
+             {% set formView = form.createView() %}
+             {{ form_start(formView) }}
+             {{ form_widget(formView.idFilm, {'attr': {'value': movie.id }}) }}
+             <input class="btn btn-primary" type="submit" value="Ajouter au favoris">
+             {{ form_end(formView) }}
+             {{ movie.id }}
              <p class="card-text">{{ movie.overview }}</p>
          </div>
      </div>
