@@ -1,18 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MovieListController!{% endblock %}
-
 {% block body %}
-    <form action="{{ path('app_movie_list', {'id': id}) }}">
-        <input type="submit" value=">" />
-    </form>
-    <form action="{{ path('app_movie_list', {'id': pagesPrecedente}) }}">
-        <input type="submit" value="<" />
-    </form>
+<div style="display: flex; flex-wrap: wrap; padding: 20px; margin: 100px; margin-top: 20px">
  {% for movie in movies.results %}
-    <a>{{ movie.original_title }}</a><br>
-     <img src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}"><br>
-     <a> {{ movie.overview }}</a>
+     <div class="card" style="width: 18rem; padding: 10px">
+         <img src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}" class="card-img-top" alt="...">
+         <div class="card-body">
+             <h5 class="card-title"><a> {{ movie.original_title }}</a></h5>
+             <button>ADD fav</button>
+             <p class="card-text">{{ movie.overview }}</p>
+         </div>
+     </div>
     {% endfor %}
-
+    <div class="fixed-top" style="margin: 10px; margin-top: 80px;">
+        {% if (pagesPrecedente > 0) %}
+        <button class="btn btn-primary float-start"> <a style="color: white" href="{{ path('app_movie_list', {'id': pagesPrecedente})}}">Précédent</a></button>
+        {% endif %}
+        <button class="btn btn-primary float-end"> <a style="color: white" href="{{ path('app_movie_list', {'id': id})}}">Suivant</a></button>
+    </div>
+</div>
 {% endblock %}
