@@ -9,13 +9,13 @@
         {% endblock %}
     </head>
     <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="z-index: 1">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="#">Hidden brand</a>
+                <a class="navbar-brand" href="{{ path('acceuil', { }) }}">Hidden brand</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ path('acceuil', { }) }}">Accueil</a>
@@ -29,12 +29,28 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_movie_list', { 'id': '1' }) }}">Listes de films</a>
                     </li>
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}">Favori</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_register', { }) }}">Inscription</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_login', { }) }}">Connection</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
                         {% if app.user %}
                         <a id="logout" class="nav-link" href="{{ path('app_logout') }}">Logout</a>
                         {% else %}
                         <a id="logout" class="nav-link disabled" href="{{ path('app_logout') }}"></a>
                         {% endif %}
+                        <a class="nav-link" href="{{ path('app_movie_list', { 'id': '1' }) }}">Listes de films</a>
                     </li>
                 </ul>
                 <form class="d-flex">
