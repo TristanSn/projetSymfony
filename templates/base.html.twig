@@ -24,18 +24,25 @@
                         <a class="nav-link" href="{{ path('app_register', { }) }}">Inscription</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="{{ path('app_login', { }) }}">Connection</a>
+                        <a class="nav-link " href="{{ path('app_login', { }) }}">Connection</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_movie_list', { 'id': '1' }) }}">Listes de films</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="{{ path('app_logout') }}">Logout</a>
+                        {% if app.user %}
+                        <a id="logout" class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+                        {% else %}
+                        <a id="logout" class="nav-link disabled" href="{{ path('app_logout') }}"></a>
+                        {% endif %}
                     </li>
                 </ul>
                 <form class="d-flex">
                     <input style="width: 400px" class="form-control me-2" type="search" placeholder="Rechercher un film ou une série" aria-label="Search">
+                    {#{{ form_start(form) }}
+                    {{ form_widget(form.input) }}#}
                     <button class="btn btn-outline-success" type="submit">Search</button>
+                    {#{{ form_end(form) }}#}
                 </form>
             </div>
         </div>
