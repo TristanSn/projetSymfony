@@ -27,6 +27,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $favori = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,4 +94,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getFavori(): array
+    {
+        return $this->favori;
+    }
+
+    public function setFavori(array $favori): self
+    {
+        $this->favori = $favori;
+
+        return $this;
+    }
+
 }

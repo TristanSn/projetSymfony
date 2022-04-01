@@ -3,10 +3,15 @@
 namespace App\Controller;
 
 use App\Dto\RechercheDto;
+use App\Entity\Avis;
+use App\Entity\User;
+use App\Form\AvisType;
 use App\Form\RechercheType;
 use App\Entity\Favori;
 use App\Form\FavoriType;
+use App\Repository\AvisRepository;
 use App\Repository\FavoriRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use MovieListDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +22,7 @@ class MovieListController extends AbstractController
 {
     #[Route('/movie/list/{id}', name: 'app_movie_list', methods: ["GET", "POST"])]
 
-    public function index($id, Request $request, FavoriRepository $favoriRepository): Response
+    public function index($id, Request $request, FavoriRepository $favoriRepository, AvisRepository $avisRepository): Response
     {
         $movieApiDto = new MovieListDto();
 
@@ -32,12 +37,12 @@ class MovieListController extends AbstractController
             $movies = $movieApiDto->getPopular($id);
         }
 
-        //Remplacer par page
         $categories = $movieApiDto->getCategories();
 
         //DD($movies);
-        /*$favori = new Favori();
-        $form = $this->createForm(FavoriType::class, $favori);
+        $favori = new Favori();
+        $user = $this->getUser();
+        /*$form = $this->createForm(FavoriType::class, $favori);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() &&  $form->isValid()) {
@@ -46,16 +51,29 @@ class MovieListController extends AbstractController
         }*/
 
         //--------------------------
-        $favori = new Favori();
+        /*$favori = new Favori();*/
+
         $formFav = $this->createForm(FavoriType::class, $favori);
         $formFav->handleRequest($request);
 
         if ($formFav->isSubmitted() &&  $formFav->isValid()) {
             $favoriRepository->add($favori);
-            return $this->redirectToRoute('app_favori', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_favori', [
+                'movies_id' => $favori->getIdFilm()
+            ], Response::HTTP_SEE_OTHER);
         }
 
-        //DD($movies);
+        $avis = new Avis();
+
+        $formAvis = $this->createForm(AvisType::class, $avis);
+        $formAvis->handleRequest($request);
+
+        if ($formAvis->isSubmitted() &&  $formAvis->isValid()) {
+            return $this->redirectToRoute('app_avis', [
+                'movies_id' => $avis->getIdFilm()
+            ], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('movie_list/index.html.twig', [
             'controller_name' => 'MovieListController',
             'movies' => $movies ,
@@ -64,7 +82,9 @@ class MovieListController extends AbstractController
             'controller' => $movieApiDto,
             'categories'=>$categories,
             'form'=>$form->createView(),
-            'formFav' => $formFav
+            'formFav' => $formFav,
+            'formAvis' => $formAvis,
+            'user' => $user
         ]);
     }
 

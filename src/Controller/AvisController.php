@@ -10,13 +10,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FavoriController extends AbstractController
+class AvisController extends AbstractController
 {
-    #[Route('/favori/movie/{movies_id}', name: 'app_favori', methods: ["GET", "POST"])]
+    #[Route('/avis/movie/{movies_id}/reviews', name: 'app_avis', methods: ["GET", "POST"])]
     public function index($movies_id, Request $request): Response
     {
-        $user = new User();
-        $user->getFavori();
+
         $movieApiDto = new MovieListDto();
         $form = $this->createForm(RechercheType::class);
 
@@ -28,15 +27,13 @@ class FavoriController extends AbstractController
             $movies = $movieApiDto->getPopular(1);
         }
 
-        $movie = $movieApiDto->getFilmById($movies_id);
+        $movie = $movieApiDto->getMoviesReview();
 
-        return $this->render('favori/index.html.twig', [
-            'controller_name' => 'FavoriController',
-            'movies' => $movies ,
+        return $this->render('avis/index.html.twig', [
+            'controller_name' => 'AvisController',
             'movie' => $movie ,
             'movies_id' => $movies_id,
             'controller' => $movieApiDto,
-            'form'=>$form->createView(),
         ]);
     }
 }

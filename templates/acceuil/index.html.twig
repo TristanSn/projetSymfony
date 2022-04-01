@@ -3,9 +3,7 @@
 {% block title %}Hello AcceuilController!{% endblock %}
 
 {% block body %}
-    <a href="{{ path('app_register', { }) }}" class="btn btn-primary btn-sm"> Register </a> </br>
-    <a href="{{ path('app_login', { }) }}" class="btn btn-primary btn-sm"> Connect </a> </br>
-    <a href="{{ path('app_user_index', { }) }}" class="btn btn-primary btn-sm"> User </a> </br>
-    <a href="{{ path('app_movie_list', {'id': '1'}) }}" class="btn btn-primary btn-sm"> Liste des films populaires </a>
-
+    <script>
+        document.location.href="{{ path('app_movie_list', { 'id': '1' }) }}";
+    </script>
 {% endblock %}

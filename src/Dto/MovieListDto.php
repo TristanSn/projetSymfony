@@ -93,6 +93,24 @@ class MovieListDto{
         return json_decode($response->getContent());
     }
 
+    public function getMovies():stdClass
+    {
+        $response = $this->client->request(
+            'GET',
+            'https://api.themoviedb.org/3/movie/508947?api_key='.MovieListDto::API_KEY3.'&language=en-US',
+        );
+        return json_decode($response->getContent());
+    }
+
+    public function getMoviesReview():stdClass
+    {
+        $response = $this->client->request(
+            'GET',
+            'https://api.themoviedb.org/3/movie/508947/reviews?api_key='.MovieListDto::API_KEY3.'&language=en-US',
+        );
+        return json_decode($response->getContent());
+    }
+
     /**
      * @param mixed $client
      */

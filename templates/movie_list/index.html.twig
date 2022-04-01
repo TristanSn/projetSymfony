@@ -13,12 +13,20 @@
                        <img src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}" class="card-img-top" alt="...">
                        <div class="card-body">
                            <h5 class="card-title"><a> {{ movie.original_title }}</a></h5>
+                           <h5 class="card-title"><a> {{ movie.vote_average }}</a></h5>
+                           <h5 class="card-title"><a> {{ movie.vote_count }}</a></h5>
+                           <h5 class="card-title"><a> {{ movie.release_date }}</a></h5>
                            {% set formView = formFav.createView() %}
                            {{ form_start(formView) }}
                            {{ form_widget(formView.idFilm, {'attr': {'value': movie.id }}) }}
-                           <input class="btn btn-primary" type="submit" value="Ajouter au favoris">
+                           {{ form_widget(formView.userId, {'attr': {'value': user.mail }}) }}
+                           <input class="btn btn-primary" href="{{ path('app_favori', {'movies_id': movie.id}) }}" type="submit" value="Ajouter au favoris">
                            {{ form_end(formView) }}
-                           {{ movie.id }}
+                           {% set formView = formAvis.createView() %}
+                           {{ form_start(formView) }}
+                           {{ form_widget(formView.idFilm, {'attr': {'value': movie.id }}) }}
+                           <input class="btn btn-primary" href="{{ path('app_avis', { 'movies_id': movie.id }) }}" type="submit" value="Avis film">
+                           {{ form_end(formView) }}
                            <p class="card-text">{{ movie.overview }}</p>
                        </div>
                    </div>
