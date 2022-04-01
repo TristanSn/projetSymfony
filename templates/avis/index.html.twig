@@ -4,11 +4,11 @@
 
 {% block body %}
     {% for movi in movie.results %}
-    <div class="card" style="width: 18rem; padding: 10px">
+    <div class="card" style="padding: 10px; margin: 20px">
         <div class="card-body">
-            <h5 class="card-title"><a> {{ movi.author}}</a></h5>
-            <h5 class="card-title"><a> {{ movi.content}}</a></h5>
-            <h5 class="card-title"><a> {{ movi.created_at}}</a></h5>
+            <h3 class="card-title"><a>Auteur: {{ movi.author}}</a></h3><br>
+            <h5 class="card-title"><a> {{ movi.content}}</a></h5><br>
+            <h6 class="card-title"><a>Date: {{ movi.created_at}}</a></h6><br>
         </div>
     </div>
     {% endfor %}

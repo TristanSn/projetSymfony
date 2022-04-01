@@ -12,23 +12,42 @@
                    <div class="card" style="width: 18rem; padding: 10px">
                        <img src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}" class="card-img-top" alt="...">
                        <div class="card-body">
-                           <h5 class="card-title"><a> {{ movie.original_title }}</a></h5>
-                           <h5 class="card-title"><a> {{ movie.vote_average }}</a></h5>
-                           <h5 class="card-title"><a> {{ movie.vote_count }}</a></h5>
-                           <h5 class="card-title"><a> {{ movie.release_date }}</a></h5>
-                           {% set formView = formFav.createView() %}
-                           {{ form_start(formView) }}
-                           {{ form_widget(formView.idFilm, {'attr': {'value': movie.id }}) }}
-                           {{ form_widget(formView.userId, {'attr': {'value': user.mail }}) }}
-                           <input class="btn btn-primary" href="{{ path('app_favori', {'movies_id': movie.id}) }}" type="submit" value="Ajouter au favoris">
-                           {{ form_end(formView) }}
-                           {% set formView = formAvis.createView() %}
-                           {{ form_start(formView) }}
-                           {{ form_widget(formView.idFilm, {'attr': {'value': movie.id }}) }}
-                           <input class="btn btn-primary" href="{{ path('app_avis', { 'movies_id': movie.id }) }}" type="submit" value="Avis film">
-                           {{ form_end(formView) }}
+                           <h4 class="card-title"><a> {{ movie.original_title }}</a></h4><br>
+                           <h6>Date sortie film:</h6>
+                           <h6 class="card-title"><a>{{ movie.release_date }}</a></h6><br>
+                           <table>
+                               <tr>
+                                   <td>
+                                       {% set formView = formFav.createView() %}
+                                       {{ form_start(formView) }}
+                                       {{ form_widget(formView.idFilm, {'attr': {'value': movie.id }}) }}
+                                       {{ form_widget(formView.userId, {'attr': {'value': user.mail }}) }}
+                                       <input class="btn btn-primary" href="{{ path('app_favori', {'movies_id': movie.id}) }}" type="submit" value="Ajouter au favoris">
+                                       {{ form_end(formView) }}
+                                   </td>
+                                   <td>
+                                       {% set formView = formAvis.createView() %}
+                                       {{ form_start(formView) }}
+                                       {{ form_widget(formView.idFilm, {'attr': {'value': movie.id }}) }}
+                                       <input class="btn btn-primary" href="{{ path('app_avis', { 'movies_id': movie.id }) }}" type="submit" value="Avis film">
+                                       {{ form_end(formView) }}
+                                   </td>
+                               </tr>
+                           </table>
+                           <br>
                            <p class="card-text">{{ movie.overview }}</p>
                        </div>
+                       <table style="bottom: 0">
+                           <tr>
+                               <td>
+                                   <h6 class="card-title"><a>Note: {{ movie.vote_average }}/10</a></h6>
+                                   <h6 class="card-title"><a>Nombre d'avis: {{ movie.vote_count }}</a></h6><br>
+                               </td>
+                               {#<td>
+                                   <h6 class="card-title"><a>Nombre d'avis: {{ movie.vote_count }}</a></h6><br>
+                               </td>#}
+                           </tr>
+                       </table>
                    </div>
                {% endfor %}
                <div class="fixed-top" style="margin: 10px; margin-top: 80px;">

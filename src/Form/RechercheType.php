@@ -12,7 +12,10 @@ class RechercheType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('input')
+            ->add('input', null, array(
+                'attr' => array('placeholder' => 'Rechercher un film ou une série'
+                , 'style' => 'width: 600px; margin-top: 20px; margin-left: 400px'),
+            ))
         ;
     }
 
